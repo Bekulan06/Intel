@@ -1,0 +1,53 @@
+[Version]
+Signature="$Windows NT$"
+Class=System
+ClassGuid={B85B7C50-6A01-11d2-B841-00C04FAD8086}
+Provider=%COMPANY%
+DriverVer=12/26/2019,7.5.6.0
+DriverPackageType=KernelService
+CatalogFile.ntx86=IntelHaxm_x86.cat
+CatalogFile.ntamd64=IntelHaxm_x64.cat
+
+[DestinationDirs]
+DefaultDestDir = 12
+
+[DefaultInstall]
+CopyFiles=Haxm.CopyFiles
+
+[DefaultInstall.Services]
+AddService=IntelHaxm,0x00000002,Haxm_Service,Haxm_EventLog_inst
+
+[Manufacturer]
+%INTEL%=INTEL, NTamd64
+
+[SourceDisksFiles]
+IntelHaxm.sys=1
+
+[SourceDisksNames]
+1=%DISK_NAME%,
+
+[Haxm.CopyFiles]
+IntelHaxm.sys
+
+[Haxm_Service]
+DisplayName    = %Haxm.SVCDESC%
+ServiceType    = 1
+StartType      = 2
+ErrorControl   = 1
+ServiceBinary  = %12%\IntelHaxm.sys
+
+[Haxm_EventLog_inst]
+AddReg = Haxm_EventLog_AddReg
+
+[Haxm_EventLog_AddReg]
+HKR,,EventMessageFile,0x00020000,"%%SystemRoot%%\System32\IoLogMsg.dll;%%SystemRoot%%\System32\DRIVERS\IntelHaxm.sys";
+; Preceding entry on single line in INF file. Enclosing quotation marks
+;
+HKR,,TypesSupported,0x00010001,7
+;
+
+[Strings]
+COMPANY = "Intel Corporation"
+Haxm.SVCDESC = "Intel HAXM Service"
+Haxm.DRVDESC = "Intel HAXM Driver"
+DISK_NAME = "Haxm Driver Disk"
